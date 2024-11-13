@@ -1,0 +1,300 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     11513,        292]
+NotebookOptionsPosition[     11036,        275]
+NotebookOutlinePosition[     11429,        291]
+CellTagsIndexPosition[     11386,        288]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Manipulate", "[", 
+   RowBox[{
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"numFeatures", "=", "25"}], ",", "means", ",", "gaussians", 
+        ",", "colors", ",", "activations"}], "}"}], ",", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Generate", " ", "evenly", " ", "spaced", " ", "means", " ", "and", 
+        " ", "rainbow", " ", "colors", " ", "for", " ", "the", " ", 
+        "features"}], "*)"}], 
+      RowBox[{
+       RowBox[{"means", "=", 
+        RowBox[{"Subdivide", "[", 
+         RowBox[{"0", ",", "1", ",", 
+          RowBox[{"numFeatures", "-", "1"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"colors", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ColorData", "[", "\"\<Rainbow\>\"", "]"}], "[", 
+           RowBox[{"i", "/", 
+            RowBox[{"(", 
+             RowBox[{"numFeatures", "-", "1"}], ")"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "0", ",", 
+            RowBox[{"numFeatures", "-", "1"}]}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Define", " ", "Gaussian", " ", "tuning", " ", "curves", " ", 
+         "centered", " ", "at", " ", "each", " ", "mean"}], "*)"}], 
+       RowBox[{"gaussians", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{"x", "-", "m"}], ")"}], "^", "2"}], ")"}]}], "/", 
+            RowBox[{"(", 
+             RowBox[{"2", " ", "variance"}], ")"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"m", ",", "means"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Calculate", " ", "activations", " ", "for", " ", "the", " ", "given",
+          " ", "input", " ", "x"}], "*)"}], 
+       RowBox[{"activations", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{"input", "-", "m"}], ")"}], "^", "2"}], ")"}]}], "/", 
+            
+            RowBox[{"(", 
+             RowBox[{"2", " ", "variance"}], ")"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"m", ",", "means"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+         "Plot", " ", "the", " ", "Gaussian", " ", "tuning", " ", "curves"}], 
+         ",", 
+         RowBox[{"input", " ", "position"}], ",", 
+         RowBox[{
+         "and", " ", "stem", " ", "plot", " ", "of", " ", "activations"}]}], 
+        "*)"}], 
+       RowBox[{"Show", "[", 
+        RowBox[{
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{"Evaluate", "[", 
+            RowBox[{"Table", "[", 
+             RowBox[{
+              RowBox[{"gaussians", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"i", ",", "numFeatures"}], "}"}]}], "]"}], "]"}], ",", 
+           
+           RowBox[{"{", 
+            RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+           RowBox[{"PlotStyle", "\[Rule]", "colors"}], ",", 
+           RowBox[{"PlotRange", "\[Rule]", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", "1.1"}], "}"}]}], ",", 
+           RowBox[{"PlotLegends", "\[Rule]", "None"}], ",", 
+           RowBox[{"AxesLabel", "\[Rule]", 
+            RowBox[{"{", 
+             RowBox[{"\"\<x\>\"", ",", "\"\<Activation\>\""}], "}"}]}], ",", 
+           RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+           RowBox[{"FrameLabel", "\[Rule]", 
+            RowBox[{"{", 
+             RowBox[{"\"\<x\>\"", ",", "\"\<Activation\>\""}], "}"}]}], ",", 
+           RowBox[{"ImageSize", "\[Rule]", "Large"}]}], "]"}], ",", 
+         RowBox[{"(*", 
+          RowBox[{
+          "Add", " ", "a", " ", "vertical", " ", "line", " ", "to", " ", 
+           "show", " ", "the", " ", "input", " ", "position"}], "*)"}], 
+         RowBox[{"Graphics", "[", 
+          RowBox[{"{", 
+           RowBox[{"Dashed", ",", "Black", ",", 
+            RowBox[{"Line", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"input", ",", "0"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"input", ",", "1"}], "}"}]}], "}"}], "]"}]}], "}"}], 
+          "]"}], ",", 
+         RowBox[{"(*", 
+          RowBox[{
+          "Add", " ", "stem", " ", "plot", " ", "at", " ", "each", " ", 
+           RowBox[{"Gaussian", "'"}], "s", " ", "center", " ", "with", " ", 
+           "height", " ", "set", " ", "by", " ", "activation"}], "*)"}], 
+         RowBox[{"Graphics", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"colors", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", 
+              RowBox[{"Line", "[", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"means", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "0"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"means", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                   RowBox[{"activations", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}]}], "}"}]}], "}"}], "]"}], 
+              ",", 
+              RowBox[{"Disk", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"means", "[", 
+                   RowBox[{"[", "i", "]"}], "]"}], ",", 
+                  RowBox[{"activations", "[", 
+                   RowBox[{"[", "i", "]"}], "]"}]}], "}"}], ",", "0.01"}], 
+               "]"}]}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "numFeatures"}], "}"}]}], "]"}], "]"}]}], 
+        "]"}]}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"input", ",", "0.5", ",", "\"\<Input x\>\""}], "}"}], ",", "0",
+       ",", "1"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"variance", ",", "0.01", ",", "\"\<Variance\>\""}], "}"}], ",",
+       "0.001", ",", "0.1"}], "}"}]}], "]"}], "\n"}]], "Input",
+ CellChangeTimes->{{3.9405142678706093`*^9, 3.940514267875044*^9}},
+ CellLabel->
+  "In[142]:=",ExpressionUUID->"3030bd12-8bba-4496-ba5f-523319027ee8"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`input$$ = 0.5, $CellContext`variance$$ = 
+    0.01, Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`input$$], 0.5, "Input x"}, 0, 1}, {{
+       Hold[$CellContext`variance$$], 0.01, "Variance"}, 0.001, 0.1}}, 
+    Typeset`size$$ = {576., {182., 187.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`input$$ = 0.5, $CellContext`variance$$ = 
+        0.01}, "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`numFeatures$ = 
+         25, $CellContext`means$, $CellContext`gaussians$, \
+$CellContext`colors$, $CellContext`activations$}, $CellContext`means$ = 
+         Subdivide[0, 1, $CellContext`numFeatures$ - 1]; $CellContext`colors$ = 
+         Table[
+           ColorData[
+           "Rainbow"][$CellContext`i/($CellContext`numFeatures$ - 
+            1)], {$CellContext`i, 0, $CellContext`numFeatures$ - 
+            1}]; $CellContext`gaussians$ = Table[
+           
+           Exp[(-($CellContext`x - $CellContext`m)^2)/(
+            2 $CellContext`variance$$)], {$CellContext`m, \
+$CellContext`means$}]; $CellContext`activations$ = Table[
+           
+           Exp[(-($CellContext`input$$ - $CellContext`m)^2)/(
+            2 $CellContext`variance$$)], {$CellContext`m, \
+$CellContext`means$}]; Show[
+          Plot[
+           Evaluate[
+            Table[
+             
+             Part[$CellContext`gaussians$, $CellContext`i], {$CellContext`i, \
+$CellContext`numFeatures$}]], {$CellContext`x, 0, 1}, 
+           PlotStyle -> $CellContext`colors$, PlotRange -> {0, 1.1}, 
+           PlotLegends -> None, AxesLabel -> {"x", "Activation"}, Frame -> 
+           True, FrameLabel -> {"x", "Activation"}, ImageSize -> Large], 
+          Graphics[{Dashed, Black, 
+            Line[{{$CellContext`input$$, 0}, {$CellContext`input$$, 1}}]}], 
+          Graphics[
+           Table[{
+             Part[$CellContext`colors$, $CellContext`i], 
+             Line[{{
+                Part[$CellContext`means$, $CellContext`i], 0}, {
+                Part[$CellContext`means$, $CellContext`i], 
+                Part[$CellContext`activations$, $CellContext`i]}}], 
+             Disk[{
+               Part[$CellContext`means$, $CellContext`i], 
+               Part[$CellContext`activations$, $CellContext`i]}, 
+              0.01]}, {$CellContext`i, $CellContext`numFeatures$}]]]], 
+      "Specifications" :> {{{$CellContext`input$$, 0.5, "Input x"}, 0, 
+         1}, {{$CellContext`variance$$, 0.01, "Variance"}, 0.001, 0.1}}, 
+      "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{621., {241., 247.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.940514268825366*^9, 3.940527640868547*^9},
+ CellLabel->
+  "Out[142]=",ExpressionUUID->"bd48bcf2-8967-416f-ad5e-0e460cdd7309"]
+}, Open  ]]
+},
+WindowSize->{808, 747},
+WindowMargins->{{12, Automatic}, {Automatic, 24}},
+FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (June 19, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"5dfe019a-eb0c-4b33-929c-df11288cde71"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 6727, 173, 409, "Input",ExpressionUUID->"3030bd12-8bba-4496-ba5f-523319027ee8"],
+Cell[7310, 197, 3710, 75, 507, "Output",ExpressionUUID->"bd48bcf2-8967-416f-ad5e-0e460cdd7309"]
+}, Open  ]]
+}
+]
+*)
+
